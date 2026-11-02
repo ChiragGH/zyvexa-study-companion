@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Zyvexa History</title>
+	<meta name="description" content="Study session history and activity heatmap" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sora:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+	<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="history-page" data-theme="dark">
+	<header class="site-topbar">
+		<div class="topbar-left">
+			<a class="brand" href="index.html" aria-label="Go to Home">
+				<span class="brand-mark">Z</span>
+				<span class="brand-text">Zyvexa</span>
+			</a>
+		</div>
+		<nav class="topbar-nav" aria-label="Main navigation">
+			<a href="index.html">Home</a>
+			<a href="app.html">Study</a>
+			<a href="history.html" class="is-active">History</a>
+			<a href="profile.html">Profile</a>
+		</nav>
+		<div class="topbar-right">
+			<div class="streak-indicator" title="Current streak">
+				<svg viewBox="0 0 24 24" aria-hidden="true" class="streak-flame">
+					<path d="M13 2C9.7 5.1 14.1 7.4 10.3 10.8C8.6 12.4 8 14 8 15.7C8 19 10.7 22 14 22C17.9 22 20.8 18.8 20.8 14.9C20.8 10.8 18.1 7.8 14.6 5.4C14 4.9 13.8 4.1 13 2Z"></path>
+				</svg>
+				<span id="streakCount">0</span>
+			</div>
+		</div>
+	</header>
+
+	<main class="page-shell history-shell">
+		<section class="history-heatmap-section">
+			<div class="section-head">
+				<h2>Study Activity - Last 90 Days</h2>
+				<div id="heatmapLegend" class="heatmap-legend">Low to High</div>
+			</div>
+			<div id="historyHeatmap" class="heatmap-grid" aria-label="Study activity heatmap"></div>
+			<div id="heatmapDetails" class="heatmap-details">Select a day to view details.</div>
+		</section>
+
+		<section class="history-controls">
+			<div class="chip-group" role="group" aria-label="Sort history">
+				<button class="hist-sort-btn is-active" data-sort="recent" type="button">Most recent</button>
+				<button class="hist-sort-btn" data-sort="mastery" type="button">Highest mastery</button>
+				<button class="hist-sort-btn" data-sort="topic" type="button">Topic A-Z</button>
+				<div class="hist-divider"></div>
+				<button id="toggleSelectMode" class="btn-ghost" type="button">Select</button>
+			</div>
+			<button id="clearAllHistory" class="btn-ghost danger" type="button">Clear all</button>
+		</section>
+
+		<section>
+			<div id="historyList" class="history-list"></div>
+			<div id="historyEmpty" class="history-empty-state hidden">
+				<div class="empty-illustration">
+					<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+						<circle cx="60" cy="60" r="50" fill="none" stroke="rgba(99, 120, 255, 0.15)" stroke-width="2" stroke-dasharray="10 5" />
+						<rect x="40" y="40" width="40" height="40" rx="8" fill="rgba(46, 204, 141, 0.1)" stroke="rgba(46, 204, 141, 0.3)" stroke-width="2" />
+						<path d="M50 60 l6 6 l14 -14" fill="none" stroke="rgba(99, 120, 255, 0.6)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+				</div>
+				<h3>No sessions yet</h3>
+				<p>Your study sessions will appear here.</p>
+				<a href="app.html" class="btn-generate">Start Studying</a>
+			</div>
+		</section>
+	</main>
+
+	<div id="bulkActionBar" class="bulk-action-bar hidden">
+		<div class="bulk-action-left">
+			<label class="bulk-select-all">
+				<input type="checkbox" id="selectAllSessions" aria-label="Select all" />
+				<span id="bulkSelectCount">0 selected</span>
+			</label>
+		</div>
+		<div class="bulk-action-right">
+			<button id="bulkCancel" class="btn-ghost" type="button">Cancel</button>
+			<button id="bulkDelete" class="btn-generate danger" type="button">Delete Selected</button>
+		</div>
+	</div>
+
+	<div id="historyConfirmOverlay" class="overlay hidden" aria-hidden="true">
+		<div class="overlay-card small" role="dialog" aria-modal="true" aria-label="Confirm clear history">
+			<div class="overlay-head">
+				<h3>Clear all sessions?</h3>
+				<button id="historyConfirmClose" type="button">X</button>
+			</div>
+			<p>This will permanently remove all saved sessions and mastery history.</p>
+			<div class="modal-actions">
+				<button id="historyConfirmCancel" class="btn-ghost" type="button">Cancel</button>
+				<button id="historyConfirmClear" class="btn-generate danger" type="button">Delete all</button>
+			</div>
+		</div>
+	</div>
+
+	<nav class="mobile-nav" aria-label="Mobile navigation">
+		<a href="index.html">Home</a>
+		<a href="app.html">Study</a>
+		<a href="history.html" class="is-active">History</a>
+		<a href="profile.html">Profile</a>
+	</nav>
+
+	<script type="module" src="src/history-page.js"></script>
+</body>
+</html>

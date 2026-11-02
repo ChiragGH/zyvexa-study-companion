@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Zyvexa Profile</title>
+	<meta name="description" content="Local student profile and progress dashboard" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sora:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+	<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="profile-page" data-theme="dark">
+	<header class="site-topbar">
+		<div class="topbar-left">
+			<a class="brand" href="index.html" aria-label="Go to Home">
+				<span class="brand-mark">Z</span>
+				<span class="brand-text">Zyvexa</span>
+			</a>
+		</div>
+		<nav class="topbar-nav" aria-label="Main navigation">
+			<a href="index.html">Home</a>
+			<a href="app.html">Study</a>
+			<a href="history.html">History</a>
+			<a href="profile.html" class="is-active">Profile</a>
+		</nav>
+		<div class="topbar-right">
+			<div class="streak-indicator" title="Current streak">
+				<svg viewBox="0 0 24 24" aria-hidden="true" class="streak-flame">
+					<path d="M13 2C9.7 5.1 14.1 7.4 10.3 10.8C8.6 12.4 8 14 8 15.7C8 19 10.7 22 14 22C17.9 22 20.8 18.8 20.8 14.9C20.8 10.8 18.1 7.8 14.6 5.4C14 4.9 13.8 4.1 13 2Z"></path>
+				</svg>
+				<span id="streakCount">0</span>
+			</div>
+		</div>
+	</header>
+
+	<main class="page-shell profile-shell">
+		<section class="profile-identity">
+			<div class="avatar-circle" id="profileAvatar">Z</div>
+			<div class="identity-fields">
+				<div class="name-edit-wrap">
+					<input id="profileName" type="text" maxlength="40" value="Zyvexa Student" class="inline-name-edit" aria-label="Your name" />
+					<span class="edit-icon">✎</span>
+				</div>
+				<div class="identity-selectors">
+					<select id="profileLevel" class="profile-pill-select">
+						<option value="school">School</option>
+						<option value="diploma">Diploma</option>
+						<option value="degree">Degree</option>
+						<option value="competitive">Competitive</option>
+						<option value="professional">Professional</option>
+					</select>
+					<select id="profileLanguage" class="profile-pill-select">
+						<option value="english">English</option>
+						<option value="hinglish">Hinglish</option>
+						<option value="hindi">Hindi</option>
+					</select>
+				</div>
+			</div>
+		</section>
+
+		<section class="profile-settings">
+			<div class="section-head">
+				<h2>⚙ Settings</h2>
+			</div>
+			<div class="settings-grid">
+				<div class="settings-group">
+					<div class="settings-group__label">
+						<span class="settings-group__title">Response Depth</span>
+						<span class="settings-group__desc">Controls how detailed AI responses are across all modes</span>
+					</div>
+					<div class="segmented-control" id="responseDepthControl">
+						<button class="segment-btn" data-val="concise">Concise</button>
+						<button class="segment-btn" data-val="balanced">Balanced</button>
+						<button class="segment-btn" data-val="comprehensive">Comprehensive</button>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section>
+			<div class="section-head">
+				<h2>📊 Your Numbers</h2>
+			</div>
+			<div id="profileStatsGrid" class="stats-grid profile-stats-grid"></div>
+		</section>
+
+		<section>
+			<div class="section-head">
+				<h2>📈 Topic Progress</h2>
+				<select id="profileSubjectFilter" class="inline-select"></select>
+			</div>
+			<div id="masteryTopicList" class="mastery-topic-list"></div>
+		</section>
+
+		<section>
+			<div class="section-head">
+				<h2>🟩 Activity Calendar — Last 90 Days</h2>
+			</div>
+			<div id="profileHeatmap" class="heatmap-grid"></div>
+			<div id="profileHeatmapDetails" class="heatmap-details">Hover over a day to see details</div>
+		</section>
+
+		<section>
+			<div class="section-head">
+				<h2>📚 Subject-wise Progress</h2>
+			</div>
+			<div id="subjectMasteryChart" class="subject-bar-chart"></div>
+		</section>
+	</main>
+
+	<nav class="mobile-nav" aria-label="Mobile navigation">
+		<a href="index.html">Home</a>
+		<a href="app.html">Study</a>
+		<a href="history.html">History</a>
+		<a href="profile.html" class="is-active">Profile</a>
+	</nav>
+
+	<script type="module" src="src/profile.js"></script>
+</body>
+</html>

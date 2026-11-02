@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Zyvexa Home</title>
+	<meta name="description" content="Zyvexa 2.0 AI study companion home" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sora:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+	<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="home-page" data-theme="dark">
+	<header class="site-topbar">
+		<div class="topbar-left">
+			<a class="brand" href="index.html" aria-label="Go to Home">
+				<span class="brand-mark">Z</span>
+				<span class="brand-text">Zyvexa</span>
+			</a>
+		</div>
+		<nav class="topbar-nav" aria-label="Main navigation">
+			<a href="index.html" class="is-active">Home</a>
+			<a href="app.html">Study</a>
+			<a href="history.html">History</a>
+			<a href="profile.html">Profile</a>
+		</nav>
+		<div class="topbar-right">
+			<div class="streak-indicator" title="Current streak">
+				<svg viewBox="0 0 24 24" aria-hidden="true" class="streak-flame">
+					<path d="M13 2C9.7 5.1 14.1 7.4 10.3 10.8C8.6 12.4 8 14 8 15.7C8 19 10.7 22 14 22C17.9 22 20.8 18.8 20.8 14.9C20.8 10.8 18.1 7.8 14.6 5.4C14 4.9 13.8 4.1 13 2Z"></path>
+				</svg>
+				<span id="streakCount">0</span>
+			</div>
+		</div>
+	</header>
+
+	<main class="page-shell">
+		<section class="home-hero">
+			<div class="home-hero-bg" aria-hidden="true"></div>
+			<div class="home-hero-content">
+				<p class="kicker">Zyvexa 2.0</p>
+				<h1>Master topics for real understanding, not just exam survival.</h1>
+				<p class="hero-sub">Build concepts, pressure-test them, and retain what matters with deliberate practice.</p>
+				<a href="app.html" class="btn-generate hero-cta">Start Studying</a>
+			</div>
+		</section>
+
+		<section class="home-section" id="quickResumeSection">
+			<div class="section-head">
+				<h2>Quick Resume</h2>
+				<a href="history.html">View all</a>
+			</div>
+			<div id="resumeGrid" class="resume-grid"></div>
+			<div id="resumeEmpty" class="empty-state hidden">
+				<h3>Begin your first session</h3>
+				<p>Pick a topic and let Zyvexa create your first mastery loop.</p>
+				<a href="app.html" class="btn-ghost">Open Study Workspace</a>
+			</div>
+		</section>
+
+		<section class="home-section">
+			<div class="section-head">
+				<h2>Streak and Stats</h2>
+			</div>
+			<div class="stats-grid">
+				<article class="stat-card"><span>Current streak</span><strong id="statCurrentStreak">0 days</strong></article>
+				<article class="stat-card"><span>Total topics</span><strong id="statTopics">0</strong></article>
+				<article class="stat-card"><span>Total sessions</span><strong id="statSessions">0</strong></article>
+				<article class="stat-card"><span>Average mastery</span><strong id="statMastery">0%</strong></article>
+			</div>
+		</section>
+
+		<section class="home-section">
+			<div class="section-head">
+				<h2>Explore Subjects</h2>
+			</div>
+			<div id="subjectExploreGrid" class="subject-grid" role="list"></div>
+		</section>
+	</main>
+
+	<nav class="mobile-nav" aria-label="Mobile navigation">
+		<a href="index.html" class="is-active">Home</a>
+		<a href="app.html">Study</a>
+		<a href="history.html">History</a>
+		<a href="profile.html">Profile</a>
+	</nav>
+
+	<script type="module" src="src/home.js"></script>
+</body>
+</html>

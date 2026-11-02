@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Zyvexa Study</title>
+	<meta name="description" content="Zyvexa 2.0 study workspace" />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sora:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+	<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="app-page" data-theme="dark">
+	<header class="site-topbar">
+		<div class="topbar-left">
+			<a class="brand" href="index.html" aria-label="Go to Home">
+				<span class="brand-mark">Z</span>
+				<span class="brand-text">Zyvexa</span>
+			</a>
+			<span class="topic-crumb" id="currentTopicCrumb">No topic selected</span>
+		</div>
+		<nav class="topbar-nav" aria-label="Main navigation">
+			<a href="index.html">Home</a>
+			<a href="app.html" class="is-active">Study</a>
+			<a href="history.html">History</a>
+			<a href="profile.html">Profile</a>
+		</nav>
+		<div class="topbar-right">
+			<div class="streak-indicator" title="Current streak">
+				<svg viewBox="0 0 24 24" aria-hidden="true" class="streak-flame">
+					<path d="M13 2C9.7 5.1 14.1 7.4 10.3 10.8C8.6 12.4 8 14 8 15.7C8 19 10.7 22 14 22C17.9 22 20.8 18.8 20.8 14.9C20.8 10.8 18.1 7.8 14.6 5.4C14 4.9 13.8 4.1 13 2Z"></path>
+				</svg>
+				<span id="streakCount">0</span>
+			</div>
+		</div>
+	</header>
+
+	<div class="app-layout">
+		<aside id="sidebar" class="app-sidebar" aria-label="Study controls">
+			<div class="sidebar-scroll">
+				<section class="mastery-card">
+					<div class="mastery-card-head">
+						<h2>Mastery</h2>
+						<span id="masteryPct">0%</span>
+					</div>
+					<div class="mastery-topic" id="masteryTopic">No topic yet</div>
+					<div class="mastery-track">
+						<div class="mastery-fill" id="masteryFill"></div>
+					</div>
+					<div class="mastery-meta">
+						<span id="masterySessions">0 modes</span>
+						<span id="masteryDone" class="hidden">Mastered</span>
+					</div>
+				</section>
+
+				<section class="sidebar-section">
+					<label class="section-label" for="topicsInput">Topic</label>
+					<div class="topic-input-wrap">
+						<textarea id="topicsInput" rows="3" placeholder="What are you studying today?"></textarea>
+						<button id="topic-upload-btn" class="icon-btn" type="button" aria-label="Attach file">+</button>
+					</div>
+					<input type="file" id="fileInput" multiple accept="image/*,.pdf,.doc,.docx" hidden />
+					<div id="previewGrid" class="file-preview-grid"></div>
+					<div id="fileProgress" class="file-progress hidden"><div id="fileProgressFill"></div></div>
+					<div id="fileStatus" class="file-status"></div>
+				</section>
+
+				<section class="sidebar-section">
+					<label class="section-label">Mode</label>
+					<div id="optionGrid" class="mode-grid" role="group" aria-label="Study mode selector">
+						<button class="option-card" type="button" data-mode="smart_diagnosis">
+							<span class="mode-icon">Diag</span>
+							<span class="mode-title">Smart Diagnosis</span>
+							<span class="mode-desc">Map weak areas and blind spots</span>
+						</button>
+						<button class="option-card" type="button" data-mode="concept_builder">
+							<span class="mode-icon">Build</span>
+							<span class="mode-title">Concept Builder</span>
+							<span class="mode-desc">Build deep understanding from first principles</span>
+						</button>
+						<button class="option-card" type="button" data-mode="adaptive_practice">
+							<span class="mode-icon">Prac</span>
+							<span class="mode-title">Adaptive Practice</span>
+							<span class="mode-desc">Progressive drills with rising challenge</span>
+						</button>
+						<button class="option-card" type="button" data-mode="mistake_analyzer">
+							<span class="mode-icon">Fix</span>
+							<span class="mode-title">Mistake Analyzer</span>
+							<span class="mode-desc">Understand why errors happen and fix them</span>
+						</button>
+						<button class="option-card" type="button" data-mode="exam_simulation">
+							<span class="mode-icon">Exam</span>
+							<span class="mode-title">Exam Simulation</span>
+							<span class="mode-desc">Attempt full structured exam paper</span>
+						</button>
+						<button class="option-card" type="button" data-mode="quick_revision">
+							<span class="mode-icon">Revise</span>
+							<span class="mode-title">Quick Revision</span>
+							<span class="mode-desc">Compress essentials for fast review</span>
+						</button>
+						<button class="option-card" type="button" data-mode="formula_facts">
+							<span class="mode-icon">Facts</span>
+							<span class="mode-title">Formula &amp; Facts</span>
+							<span class="mode-desc">Memory optimized reference layer</span>
+						</button>
+						<button class="option-card" type="button" data-mode="memory_engine">
+							<span class="mode-icon">Mem</span>
+							<span class="mode-title">Memory Engine</span>
+							<span class="mode-desc">Retention techniques and recall triggers</span>
+						</button>
+						<button class="option-card" type="button" data-mode="study_planner">
+							<span class="mode-icon">Plan</span>
+							<span class="mode-title">Study Planner</span>
+							<span class="mode-desc">Day-by-day execution roadmap</span>
+						</button>
+					</div>
+				</section>
+
+				<form id="studyForm" class="sidebar-section" novalidate>
+					<select id="boardType" style="display:none">
+						<option value="General" selected>General</option>
+					</select>
+
+					<label class="section-label">Level</label>
+					<div class="chip-group level-pills" role="group" aria-label="Level selector">
+						<button class="level-pill" type="button" data-level="school">School</button>
+						<button class="level-pill level-pill--active" type="button" data-level="diploma">Diploma</button>
+						<button class="level-pill" type="button" data-level="degree">Degree</button>
+						<button class="level-pill" type="button" data-level="competitive">Competitive</button>
+						<button class="level-pill" type="button" data-level="professional">Professional</button>
+					</div>
+					<select id="levelType" style="display:none" aria-hidden="true">
+						<option value="school">School</option>
+						<option value="diploma" selected>Diploma</option>
+						<option value="degree">Degree</option>
+						<option value="competitive">Competitive</option>
+						<option value="professional">Professional</option>
+					</select>
+
+					<label class="section-label">Language</label>
+					<div id="langSelector" class="chip-group lang-group" role="group" aria-label="Language selector">
+						<button type="button" class="lang-btn active" data-lang="english">EN</button>
+						<button type="button" class="lang-btn" data-lang="hinglish">Hinglish</button>
+						<button type="button" class="lang-btn" data-lang="hindi">HI</button>
+					</div>
+
+					<div class="form-actions">
+						<button id="generateBtn" class="btn-generate" type="submit">Generate</button>
+						<button id="clearBtn" class="btn-ghost" type="button">Clear</button>
+					</div>
+				</form>
+			</div>
+		</aside>
+
+		<main id="main-content" class="app-main">
+			<section class="output-panel" id="output-section" style="position: relative;">
+				<button id="stopBtn" class="stop-floating-btn hidden" type="button" data-tooltip="Stop">
+					<span class="action-icon">⏹</span> Stop Generation
+				</button>
+				<div class="output-head">
+					<div id="active-mode-badge">Select a mode to begin</div>
+					<div id="statusBarMode" class="sr-only">Select a mode to begin</div>
+				</div>
+				<div id="statusMessage" class="status-message" aria-live="polite">Ready</div>
+				<div id="subject-context-note" class="subject-context-note" aria-live="polite"></div>
+				<div id="loadingState" class="loading-state hidden"><span id="loadingText">Generating your response...</span></div>
+				<div id="outputContainer" class="output-container">
+					<p class="output-placeholder">Your generated study content appears here.</p>
+				</div>
+				<div id="outputMeta" class="sr-only">0 words and 0 min read</div>
+			</section>
+		</main>
+	</div>
+
+	<div id="sheetBackdrop" class="sheet-backdrop"></div>
+
+	<div id="inline-actions" class="inline-action-row hidden">
+		<button id="copyBtn" class="inline-action-btn" type="button">
+			<span class="action-icon">⎘</span> Copy
+		</button>
+		<button id="pdfBtn" class="inline-action-btn" type="button">
+			<span class="action-icon">↓</span> Export PDF
+		</button>
+		<button id="recallBtn" class="inline-action-btn" type="button">
+			<span class="action-icon">?</span> Recall Challenge
+		</button>
+		<button id="flashBtn" class="inline-action-btn" type="button">
+			<span class="action-icon">⧉</span> Flashcards
+		</button>
+		<div class="confidence-tags" id="confidenceTags">
+			<span class="confidence-label">How well did you get this?</span>
+			<button class="confidence-btn confidence-btn--good" data-level="got_it" type="button">✓ Got it</button>
+			<button class="confidence-btn confidence-btn--mid" data-level="mostly_clear" type="button">◐ Mostly clear</button>
+			<button class="confidence-btn confidence-btn--bad" data-level="still_confused" type="button">✗ Still confused</button>
+		</div>
+	</div>
+
+	<footer id="bottomBar" class="bottombar" aria-label="Pomodoro timer">
+		<div class="pomo-progress" id="pomoProgress"></div>
+		<div class="pomo-modes">
+			<button class="pomo-mode pomo-mode--active" data-dur="1500" id="pomoFocus">Focus 25m</button>
+			<button class="pomo-mode" data-dur="300" id="pomoShort">Short 5m</button>
+			<button class="pomo-mode" data-dur="900" id="pomoLong">Long 15m</button>
+		</div>
+		<span class="pomo-time" id="pomoTime">25:00</span>
+		<div class="pomo-controls">
+			<button class="pomo-btn" id="pomoPlay" aria-label="Play or Pause">▶</button>
+			<button class="pomo-btn" id="pomoReset" aria-label="Reset timer">⟳</button>
+		</div>
+	</footer>
+
+	<section id="ask-panel" class="ask-panel" aria-label="Ask panel">
+		<button id="ask-tab" class="ask-tab" type="button" aria-label="Open ask panel">Ask</button>
+		<div id="ask-body" class="ask-body">
+			<div class="ask-header">
+				<strong>Ask</strong>
+				<button id="ask-close" type="button" aria-label="Close ask panel">X</button>
+			</div>
+			<textarea id="ask-input" rows="4" maxlength="600" placeholder="Ask anything about this output"></textarea>
+			<button id="ask-submit" class="btn-generate" type="button">Ask</button>
+			<div id="ask-loading" class="ask-loading"></div>
+			<div id="ask-response" class="ask-response"></div>
+		</div>
+	</section>
+
+	<div id="recallOverlay" class="z-overlay" aria-hidden="true">
+		<div class="recall-card" role="dialog" aria-modal="true" aria-label="Recall challenge">
+			<div class="recall-head">
+				<h3>🧠 Recall Challenge</h3>
+				<button id="recallClose" class="recall-close" type="button" aria-label="Close">×</button>
+			</div>
+			<div id="recallBody" class="recall-body"></div>
+		</div>
+	</div>
+
+	<div id="flashOverlay" class="z-overlay" aria-hidden="true">
+		<div id="flashBody" class="flash-container"></div>
+	</div>
+
+	<div id="pomodoro-modal" aria-hidden="true">
+		<div class="pomodoro-modal-card" role="dialog" aria-modal="true" aria-label="Pomodoro timer">
+			<button class="topbar-btn pom-modal-close" type="button" data-close-modal="pomodoro-modal" aria-label="Close timer">×</button>
+			<h3>Pomodoro</h3>
+			<svg class="pom-ring-svg" viewBox="0 0 240 240" aria-hidden="true">
+				<circle class="pom-track" cx="120" cy="120" r="100"></circle>
+				<circle class="pom-progress" cx="120" cy="120" r="100"></circle>
+			</svg>
+			<div class="pom-modal-time" id="pomModalTime">25:00</div>
+			<div class="pomo-modes">
+				<button class="pomo-mode pomo-mode--active" data-dur="1500">Focus 25m</button>
+				<button class="pomo-mode" data-dur="300">Short 5m</button>
+				<button class="pomo-mode" data-dur="900">Long 15m</button>
+			</div>
+			<div class="pomo-controls">
+				<button class="pomo-btn" type="button" id="pom-modal-play">▶</button>
+				<button class="pomo-btn" type="button" id="pom-modal-reset">⟳</button>
+			</div>
+		</div>
+	</div>
+
+	<nav class="mobile-nav" aria-label="Mobile navigation">
+		<button type="button" class="nav-item active" data-nav="home"><span class="nav-icon" aria-hidden="true">🏠</span><span class="nav-label">Home</span></button>
+		<button type="button" class="nav-item" data-nav="timer"><span class="nav-icon" aria-hidden="true">⏱</span><span class="nav-label">Timer</span></button>
+		<button type="button" class="nav-item" data-nav="profile"><span class="nav-icon" aria-hidden="true">👤</span><span class="nav-label">Profile</span></button>
+	</nav>
+
+	<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+	<script>
+	(function () {
+		"use strict";
+
+		function escapeHtml(value) {
+			return String(value)
+				.replace(/&/g, "&amp;")
+				.replace(/</g, "&lt;")
+				.replace(/>/g, "&gt;")
+				.replace(/\"/g, "&quot;")
+				.replace(/'/g, "&#39;");
+		}
+
+		function preprocessAIText(raw) {
+			return String(raw || "")
+				.replace(/\r\n/g, "\n")
+				.replace(/\r/g, "\n")
+				.replace(/\t/g, "    ")
+				.trim();
+		}
+
+		function wrapUndelimitedLatex(parsedHtml) {
+			if (!parsedHtml) return "";
+			const container = document.createElement("div");
+			container.innerHTML = parsedHtml;
+			container.querySelectorAll("p, li, td, th, blockquote").forEach((node) => {
+				if (node.querySelector("code, pre, .katex, .katex-display")) return;
+				
+				let html = node.innerHTML;
+				if (/(\$\$|\$|\\\[|\\\]|\\\(|\\\))/.test(html)) return;
+				
+				if (node.children.length === 0) {
+					const text = node.textContent || "";
+					if (/\\[A-Za-z]/.test(text) && text.length <= 220 && /[=^_{}\\]|\\(?:frac|sqrt|bar|sum|int|alpha|beta|gamma|delta|theta|lambda|mu|pi|sigma|omega|partial|nabla|cdot|times)/.test(text)) {
+						node.innerHTML = `\\(${escapeHtml(text)}\\)`;
+						return;
+					}
+				}
+				
+				html = html
+					.replace(/(^|\s)(\\(?:alpha|beta|gamma|delta|theta|lambda|mu|pi|sigma|omega|infty|partial|nabla|times|cdot|to|Rightarrow|leq|geq))(?=\s|$|[.,!?])/g, "$1\\($2\\)")
+					.replace(/(^|\s)(\\frac\{[^{}]+\}\{[^{}]+\})(?=\s|$|[.,!?])/g, "$1\\($2\\)");
+				
+				node.innerHTML = html;
+			});
+			return container.innerHTML;
+		}
+
+		function renderOutput(rawAIText, targetElement) {
+			const outputDiv = targetElement || document.getElementById("outputContainer");
+			if (!outputDiv) return;
+
+			const preprocessed = preprocessAIText(rawAIText || "");
+			const parsed = typeof marked !== "undefined" ? marked.parse(preprocessed) : `<p>${escapeHtml(preprocessed)}</p>`;
+			const wrapped = wrapUndelimitedLatex(parsed);
+			outputDiv.innerHTML = `<div class="output-content">${wrapped}</div>`;
+
+			requestAnimationFrame(() => {
+				if (typeof renderMathInElement !== "undefined") {
+					try {
+						renderMathInElement(outputDiv, {
+							delimiters: [
+								{ left: "$$", right: "$$", display: true },
+								{ left: "$", right: "$", display: false },
+								{ left: "\\(", right: "\\)", display: false },
+								{ left: "\\[", right: "\\]", display: true }
+							],
+							throwOnError: false,
+							strict: false,
+							trust: true,
+							errorColor: 'transparent',
+							ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+						});
+					} catch (error) {
+						console.warn("KaTeX render error", error);
+					}
+				}
+				if (typeof window.renderZyvexaDiagrams === "function") {
+					window.renderZyvexaDiagrams(outputDiv);
+				}
+			});
+		}
+
+		window.preprocessAIText = preprocessAIText;
+		window.wrapUndelimitedLatex = wrapUndelimitedLatex;
+		window.renderOutput = renderOutput;
+
+		window._copyCodeBlock = function (btn) {
+			const code = btn?.closest(".code-block-wrapper")?.querySelector("code")?.innerText || "";
+			navigator.clipboard.writeText(code).catch(() => {});
+		};
+
+		window.generateFlashcards = function (outputDiv) {
+			const content = (outputDiv || document.getElementById("outputContainer"))?.querySelector(".output-content");
+			if (!content) return [];
+
+			const cards = [];
+			const headings = content.querySelectorAll("h2, h3");
+			headings.forEach((heading) => {
+				const front = heading.textContent.trim();
+				if (!front) return;
+				let sibling = heading.nextElementSibling;
+				let back = "";
+				while (sibling && !/^H[23]$/.test(sibling.tagName)) {
+					if (sibling.tagName === "P" && sibling.textContent.trim()) {
+						back = sibling.textContent.trim();
+						break;
+					}
+					sibling = sibling.nextElementSibling;
+				}
+				if (!back) back = front;
+				cards.push({ front, back });
+			});
+			return cards.slice(0, 40);
+		};
+
+	})();
+	</script>
+	<script type="module" src="src/app.js"></script>
+	<script src="assets/ui.js"></script>
+</body>
+</html>
